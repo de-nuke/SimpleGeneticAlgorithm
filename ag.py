@@ -30,13 +30,35 @@ import sys
 #from matplotlib.figure import Figure
 #import matplotlib.pyplot as plt
 
-from PyQt5.QtWidgets import QMainWindow, QApplication
+from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene
+from PyQt5 import QtCore
 from Window import Ui_MainWindow
+from ApplicationLogic import ApplicationLogic
+
+import seaborn as sns
+from plots import PlotCanvas
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
+        self.al = ApplicationLogic(self, population_size=90, function=lambda x: -0.1*x**2 + 4*x + 7)
+        self.next_step_btn.clicked.connect(self.al.next_step)
+        
+        self.scene = QGraphicsScene()
+        self.canvas.setScene(self.scene)
+        self.canvas.setSceneRect(0,0,self.canvas.frameSize().width(),self.canvas.frameSize().height())
+        self.canvas.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff);
+        self.canvas.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff);
+        
+        sns.set()
+        sns.set_style('whitegrid')
+        self.function_plot = PlotCanvas(self.frame, width=self.frame.width()/100, height=self.frame.height()/100)
+        self.function_plot.move(0,0)
+        
+        self.history_plot = PlotCanvas(self.frame_2, width=self.frame_2.width()/100, height=self.frame_2.height()/100)
+        self.history_plot.move(0,0)
+        
         
 if __name__ == "__main__":
     app = QApplication(sys.argv)

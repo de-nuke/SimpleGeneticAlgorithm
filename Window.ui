@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>989</width>
+    <width>1029</width>
     <height>716</height>
    </rect>
   </property>
@@ -79,7 +79,7 @@
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
-    <property name="clearButtonEnabled">
+    <property name="clearButtonEnabled" stdset="0">
      <bool>false</bool>
     </property>
    </widget>
@@ -87,12 +87,18 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>80</y>
+      <y>70</y>
       <width>351</width>
-      <height>211</height>
+      <height>151</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetDefaultConstraint</enum>
+     </property>
+     <property name="verticalSpacing">
+      <number>0</number>
+     </property>
      <item row="0" column="0">
       <widget class="QLabel" name="population_label">
        <property name="font">
@@ -198,9 +204,9 @@
     <property name="geometry">
      <rect>
       <x>400</x>
-      <y>80</y>
+      <y>70</y>
       <width>141</width>
-      <height>211</height>
+      <height>151</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_2">
@@ -242,21 +248,55 @@
      </item>
     </layout>
    </widget>
-   <zorder>function_label</zorder>
-   <zorder>lineEdit</zorder>
-   <zorder>function_name_edit</zorder>
-   <zorder>gridLayoutWidget</zorder>
-   <zorder>gridLayoutWidget_2</zorder>
-   <zorder>next_step_btn</zorder>
-   <zorder>next_step_btn</zorder>
-   <zorder>start_auto_btn</zorder>
+   <widget class="QGraphicsView" name="canvas">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>70</y>
+      <width>231</width>
+      <height>151</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QFrame" name="frame">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>240</y>
+      <width>451</width>
+      <height>311</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+   </widget>
+   <widget class="QFrame" name="frame_2">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>240</y>
+      <width>501</width>
+      <height>311</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>989</width>
+     <width>1029</width>
      <height>21</height>
     </rect>
    </property>
