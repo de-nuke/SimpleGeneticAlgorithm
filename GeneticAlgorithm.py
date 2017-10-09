@@ -24,12 +24,14 @@ class Population(object):
     gene - one bit in in binary number (creature)
     
     '''
-    def __init__(self, population_size=0, function=lambda x: x):
+    def __init__(self, population_size=0, crossing_probability=1, mutation_probability=0.1, function=lambda x: x):
         self.population = np.array([b(random.randrange(-1, 42)) for x in range(population_size)])
         self.function = function
         self.size = population_size
         self.int_pop = [int(x,2) for x in self.population]
-        self.creature_size = len(self.population[0])
+        self.creature_size = len(self.population[0]) if len(self.population) else 0
+        self.crossing_probability = crossing_probability
+        self.mutation_probability =  mutation_probability
          
         
     def reproduct(self):
@@ -45,10 +47,11 @@ class Population(object):
         
         return self
     
-    def cross(self, crossing_probability=1):
+    def cross(self, crossing_probability=None):
         l = self.creature_size
         pairs = [] #list of 2-item tuples
         
+        crossing_probability = crossing_probability if crossing_probability else self.crossing_probability
         tmp_items = list(self.population.copy())
         
         def pop_random(items):
@@ -82,10 +85,12 @@ class Population(object):
         self.int_pop = [int(x,2) for x in self.population]
         return self
     
-    def mutate(self, mutation_probability=0.1, mutation_type = 'NEGATION'):
+    def mutate(self, mutation_probability=None, mutation_type = 'NEGATION'):
         '''
         Assuming that mutation is a negation of random bit
         '''
+        mutation_probability = mutation_probability if mutation_probability else self.mutation_probability
+        
         do_mutation = choice([True, False], 1, p=[mutation_probability, 1-mutation_probability])[0]
         if do_mutation:
             if mutation_type == 'NEGATION':
@@ -117,7 +122,8 @@ class Population(object):
         values = [self.function(creature) for creature in self.int_pop]
         return sum(values)/ len(values)
 
-
+    def setFunction(self, f):
+        self.function = f
 
 
 

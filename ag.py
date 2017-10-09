@@ -42,8 +42,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
-        self.al = ApplicationLogic(self, population_size=90, function=lambda x: -0.1*x**2 + 4*x + 7)
+        self.al = ApplicationLogic(self)
+        
         self.next_step_btn.clicked.connect(self.al.next_step)
+        self.apply_btn.clicked.connect(self.al.apply_parameters)
+        self.reset_btn.clicked.connect(self.al.reset)
         
         self.scene = QGraphicsScene()
         self.canvas.setScene(self.scene)

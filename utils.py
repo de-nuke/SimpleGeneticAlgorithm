@@ -26,6 +26,22 @@ def neg_char(c):
     else:
         return c
     
+def radius(creature, minimum, maximum):
+    min_radius = 5
+    max_radius = 30
+    radius_range = max_radius - min_radius
+    
+    creature_range = maximum - minimum
+    
+    x = creature_range / radius_range
+    
+    
+    
+    return int(creature, 2)
+
+def color(x, z, y):
+        return (0, int(x, 2)+150, 0)
+    
 class Circle(QGraphicsEllipseItem):
     def __init__(self, x, y, r=10, fill_color=(255,255,255), border_color=(0,0,0)):
         super(Circle, self).__init__(x, y, r,r)
