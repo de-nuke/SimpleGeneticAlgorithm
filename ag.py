@@ -47,6 +47,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.next_step_btn.clicked.connect(self.al.next_step)
         self.apply_btn.clicked.connect(self.al.apply_parameters)
         self.reset_btn.clicked.connect(self.al.reset)
+        self.start_auto_btn.clicked.connect(self.al.start_auto)
+        self.clear_btn.clicked.connect(self.al.stop)
+        self.show_more_btn.clicked.connect(self.al.show_more_history)
         
         self.scene = QGraphicsScene()
         self.canvas.setScene(self.scene)
@@ -61,6 +64,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         self.history_plot = PlotCanvas(self.frame_2, width=self.frame_2.width()/100, height=self.frame_2.height()/100)
         self.history_plot.move(0,0)
+        
+        sns.set_style('white')
+        self.pie_plot = PlotCanvas(self.frame_3, width=self.frame_3.width()/100, height=self.frame_3.height()/100, pie=True)
+        self.pie_plot.move(0, 0)
         
         
 if __name__ == "__main__":
