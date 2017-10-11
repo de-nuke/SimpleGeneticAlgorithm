@@ -42,22 +42,44 @@ class PlotCanvas(FigureCanvas):
         
     def plot_history(self, max_history, avg_history, min_history):
         self.ax.cla()
-        self.ax.plot(max_history, 'g-', linewidth=6)
-        self.ax.plot(avg_history, 'c-', linewidth=3)
-        self.ax.plot(min_history, 'r-', linewidth=0.8)
+        style = '-' if len(max_history) > 1 else '*'
+        self.ax.plot(max_history, 'g'+style, linewidth=6)
+        self.ax.plot(avg_history, 'c'+style, linewidth=3)
+        self.ax.plot(min_history, 'r'+style, linewidth=0.8)
         self.ax.set_title('Maximum, average and miniumum fitness')
         self.draw()
         
     def plot_pie(self, population):
+        def make_autopct(total, n):
+            def my_autopct(pct):
+                val = int(round(pct*total/100.0))
+                if n <= 5:
+                    return '{p:.2f}%\n({v:d}/{t:d})'.format(p=pct,v=val,t=int(total))
+                elif n < 20:
+                    return '{p:d}%'.format(p=int(pct))
+                else:
+                    return ''
+            return my_autopct
         
         self.ax.cla()
-        explode = (0, 0.5, 0, 0)
-        colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue']
+        explode = []
+        labels = []
         data = []
+        times = []
+        for x in set(population.int_pop):
+            explode.append(0.1)
+            labels.append(str(x) + ' x' + str(population.int_pop.count(x)))
+            times.append(population.int_pop.count(x))
+        
+        explode = tuple(explode)
         values = [population.function(creature) for creature in set(population.int_pop)]
-        data = [value / sum(values) for value in values]
-        self.ax.pie(data, autopct="%1.1f%%", shadow = True)
-#        self.ax.set_title('Users Per Platform')
+        sum_values = sum([population.function(creature) for creature in population.int_pop])
+        data = [(value / 1) * times[i] for i, value in enumerate(values)]
+        patches, texts, autotexts = self.ax.pie(data, autopct=make_autopct(sum_values, len(data)), shadow = True, explode=explode, labels=labels)
+        for t in texts:
+            t.set_fontsize(14 if len(data) < 35 else 10) 
+        for at in autotexts:
+            at.set_fontsize(10)
         self.ax.set_aspect('1')
         self.draw()
         

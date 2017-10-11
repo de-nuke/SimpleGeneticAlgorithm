@@ -51,11 +51,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.clear_btn.clicked.connect(self.al.stop)
         self.show_more_btn.clicked.connect(self.al.show_more_history)
         
-        self.scene = QGraphicsScene()
-        self.canvas.setScene(self.scene)
-        self.canvas.setSceneRect(0,0,self.canvas.frameSize().width(),self.canvas.frameSize().height())
-        self.canvas.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff);
-        self.canvas.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff);
+#        self.scene = QGraphicsScene()
+#        self.canvas.setScene(self.scene)
+#        self.canvas.setSceneRect(0,0,self.canvas.frameSize().width(),self.canvas.frameSize().height())
+#        self.canvas.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff);
+#        self.canvas.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff);
         
         sns.set()
         sns.set_style('whitegrid')
@@ -65,7 +65,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.history_plot = PlotCanvas(self.frame_2, width=self.frame_2.width()/100, height=self.frame_2.height()/100)
         self.history_plot.move(0,0)
         
-        sns.set_style('white')
         self.pie_plot = PlotCanvas(self.frame_3, width=self.frame_3.width()/100, height=self.frame_3.height()/100, pie=True)
         self.pie_plot.move(0, 0)
         
