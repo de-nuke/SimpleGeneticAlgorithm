@@ -21,11 +21,11 @@ Program przetestować dla funkcji f(x)= -0.1x^2 + 4x + 7 dla x= -1, O, ... 41
 '''
 
 import sys
- 
+
 #from PyQt5.QtWidgets import QApplication, QMainWindow, QMenu, QVBoxLayout, QSizePolicy, QMessageBox, QWidget, QPushButton
 #from PyQt5.QtGui import QIcon
- 
- 
+
+
 #from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 #from matplotlib.figure import Figure
 #import matplotlib.pyplot as plt
@@ -35,7 +35,7 @@ from PyQt5 import QtCore
 from Window import Ui_MainWindow
 from ApplicationLogic import ApplicationLogic
 
-import seaborn as sns
+# import seaborn as sns
 from plots import PlotCanvas
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -57,8 +57,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 #        self.canvas.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff);
 #        self.canvas.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff);
         
-        sns.set()
-        sns.set_style('whitegrid')
+        # sns.set()
+        # sns.set_style('whitegrid')
         self.function_plot = PlotCanvas(self.frame, width=self.frame.width()/100, height=self.frame.height()/100)
         self.function_plot.move(0,0)
         

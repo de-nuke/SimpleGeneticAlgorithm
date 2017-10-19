@@ -280,7 +280,6 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <zorder>verticalLayoutWidget_2</zorder>
    </widget>
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
@@ -384,10 +383,10 @@
         <double>1.000000000000000</double>
        </property>
        <property name="singleStep">
-        <double>0.001000000000000</double>
+        <double>0.000100000000000</double>
        </property>
        <property name="value">
-        <double>0.010000000000000</double>
+        <double>0.001000000000000</double>
        </property>
       </widget>
      </item>
@@ -681,22 +680,6 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <zorder>gridLayoutWidget_2</zorder>
-   <zorder>frame</zorder>
-   <zorder>frame_2</zorder>
-   <zorder>horizontalLayoutWidget</zorder>
-   <zorder>log_label</zorder>
-   <zorder>horizontalLayoutWidget_2</zorder>
-   <zorder>frame_3</zorder>
-   <zorder>gridLayoutWidget</zorder>
-   <zorder>label</zorder>
-   <zorder>verticalLayoutWidget</zorder>
-   <zorder>verticalLayoutWidget_3</zorder>
-   <zorder>current_max_for_2</zorder>
-   <zorder>current_min_for_2</zorder>
-   <zorder>current_max_for</zorder>
-   <zorder>current_min_for</zorder>
-   <zorder>current_min</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

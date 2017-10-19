@@ -208,7 +208,8 @@ class ApplicationLogic(object):
         self.main_window.clear_btn.setDisabled(True)
         self.main_window.next_step_btn.setDisabled(False)
         self.main_window.reset_btn.setDisabled(False)
-        
+        self.main_window.start_auto_btn.setDisabled(False)
+
     def start_auto(self):
         self.main_window.clear_btn.setDisabled(False)
         self.main_window.next_step_btn.setDisabled(True)
