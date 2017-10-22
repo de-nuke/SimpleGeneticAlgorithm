@@ -25,32 +25,7 @@ X_END = 41
 
 def x_range(a,b):
     return range(a, b+1)
- 
-   
-class PieChart(QThread):
-    def __init__(self, al):
-        QThread.__init__(self)
-        self.population = al.population
-        self.main_window = al.main_window
-        self.isRunning = False
-        self.mode = 'ENDLESS'
-       
-    def __del__(self):
-        self.terminate()
-        
-    def stop(self):
-        self.isRunning = False
-        
-    def activate(self, mode):
-        self.isRunning = True
-        self.mode = mode
-        
-    def run(self):
-        while True:
-            if self.isRunning:
-                self.main_window.pie_plot.plot_pie(self.population)
-                if self.mode == 'SINGLE_STEP':
-                    self.isRunning = False
+
 
 class AutoStep(QThread):
     def __init__(self, al):
@@ -61,6 +36,7 @@ class AutoStep(QThread):
         self.x_range = al.x_range
         self.isRunning = False
         self.mode = 'ENDLESS'
+
         
     def __del__(self):
         self.terminate()
@@ -81,7 +57,12 @@ class AutoStep(QThread):
                 self.population.reproduct().cross().mutate()
                 self.al.counter += 1
                 self.main_window.log_label.setText('Iteration no. ' + str(self.al.counter))
-                
+
+                if self.population.maximum > self.al.all_time_max:
+                    self.al.all_time_max = self.population.maximum
+                    self.al.all_time_max_x = self.population.maximum_x_for(self.al.all_time_max)
+
+                self.main_window.max_all_time_label.setText(str(self.al.all_time_max) + " for x = " + str(self.al.all_time_max_x))
                 self.main_window.current_max.setText(str(round(self.population.maximum*10000)/10000))
                 self.main_window.current_max_for.setText(str(self.population.maximum_x))
                 
@@ -116,7 +97,9 @@ class ApplicationLogic(object):
         self.counter = 0
         self.last_dumped_index = 0
         self.x_range = x_range(X_START, X_END)
-        self.thread =  AutoStep(self)
+        self.thread = AutoStep(self)
+        self.all_time_max = -999
+        self.all_time_max_x = X_START - 9
 #        self.thread2 = PieChart(self)
         self.main_window.clear_btn.clicked.connect(self.thread.stop)
 #        self.main_window.clear_btn.clicked.connect(self.thread2.stop)
@@ -200,6 +183,10 @@ class ApplicationLogic(object):
         self.main_window.current_avg.setText('')
         self.main_window.current_min.setText('')
         self.main_window.current_min_for.setText('')
+        self.main_window.max_all_time_label.setText('0')
+
+        self.all_time_max = 0
+        self.all_time_max_x = 0
         self.thread.counter = 0
         self.counter = 0
         self.thread.reset()

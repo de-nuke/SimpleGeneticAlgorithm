@@ -9,8 +9,11 @@ from PyQt5.QtWidgets import QGraphicsEllipseItem
 from PyQt5 import QtGui
 from PyQt5 import QtCore
 
-def b(value, num_of_digits=6):
-    return ("{:0"+str(num_of_digits)+"b}").format(value)
+def to_b(value, offset, num_of_digits=6):
+    return ("{:0"+str(num_of_digits)+"b}").format(value + offset)
+
+def to_dec(value, offset, base=2):
+    return int(value, base) - offset
 
 def neg_char(c):
     '''
