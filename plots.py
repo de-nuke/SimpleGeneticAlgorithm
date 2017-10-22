@@ -8,6 +8,8 @@ Created on Sat Oct  7 19:57:11 2017
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from PyQt5.QtWidgets import QSizePolicy
+import numpy as np
+
 class PlotCanvas(FigureCanvas):
  
     def __init__(self, parent=None, width=5, height=4, dpi=100, pie=False):
@@ -40,13 +42,14 @@ class PlotCanvas(FigureCanvas):
         self.ax.set_title('Fitness function')
         self.draw() 
         
-    def plot_history(self, max_history, avg_history, min_history):
+    def plot_history(self, max_history, avg_history, min_history, left_x, right_x):
         self.ax.cla()
         style = '-' if len(max_history) > 1 else '*'
         self.ax.plot(max_history, 'g'+style, linewidth=6)
         self.ax.plot(avg_history, 'c'+style, linewidth=3)
         self.ax.plot(min_history, 'r'+style, linewidth=0.8)
         self.ax.set_title('Maximum, average and miniumum fitness')
+        self.ax.set_xbound(left_x, right_x)
         self.draw()
         
     def plot_pie(self, population):

@@ -50,7 +50,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.start_auto_btn.clicked.connect(self.al.start_auto)
         self.clear_btn.clicked.connect(self.al.stop)
         self.show_more_btn.clicked.connect(self.al.show_more_history)
-        
+        # self.pop_size.valueChanged.connect(self.al.validateInput)
 #        self.scene = QGraphicsScene()
 #        self.canvas.setScene(self.scene)
 #        self.canvas.setSceneRect(0,0,self.canvas.frameSize().width(),self.canvas.frameSize().height())

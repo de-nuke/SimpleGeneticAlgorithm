@@ -16,15 +16,35 @@ DEQUE_SIZE = 20
 '''const for this exercise '''
 
 def f(x):
-    return -0.1*x**2 + 4*x + 7
+    # return -0.1*x**2 + 4*x + 7
+    # return -0.4*x**2 + 4*x + 6
+    return -0.25*x**2 + 5*x + 6
 
 X_START = -1
-X_END = 41
+
+# X_END = 41
+X_END = 21
+
+MAX_HIST_SIZE = 20
 
 ''' end of const '''
 
+
 def x_range(a,b):
     return range(a, b+1)
+
+
+def no_change(values_list):
+    """
+    :param values_list:
+    :return: TRUE if every element in the given list is the same
+    """
+    was_change = False
+    for i in range(1,len(values_list)):
+        if values_list[i] != values_list[i-1]:
+            was_change = True
+            break
+    return not was_change
 
 
 class AutoStep(QThread):
@@ -37,7 +57,6 @@ class AutoStep(QThread):
         self.isRunning = False
         self.mode = 'ENDLESS'
 
-        
     def __del__(self):
         self.terminate()
         
@@ -74,10 +93,16 @@ class AutoStep(QThread):
                 self.al.avg_history.append(round(self.population.average*10000)/10000)
                 self.al.max_history.append(round(self.population.maximum*10000)/10000)
                 self.al.min_history.append(round(self.population.minimum*10000)/10000)
-                
-                self.main_window.function_plot.plot_function(self.x_range, self.population.function, self.population.int_pop)
-                self.main_window.history_plot.plot_history(self.al.max_history[-DEQUE_SIZE:], self.al.avg_history[-DEQUE_SIZE:], self.al.min_history[-DEQUE_SIZE:])
-                self.main_window.pie_plot.plot_pie(self.population)
+
+                if self.main_window.draw_plots.checkState():
+                    self.main_window.function_plot.plot_function(self.x_range, self.population.function, self.population.int_pop)
+                    self.main_window.history_plot.plot_history(
+                        self.al.max_history,
+                        self.al.avg_history,
+                        self.al.min_history,
+                        self.al.counter - DEQUE_SIZE,
+                        self.al.counter)
+                    self.main_window.pie_plot.plot_pie(self.population)
                 
                 if len(self.al.avg_history) > 2000:
                     self.al.avg_history = []
@@ -85,11 +110,29 @@ class AutoStep(QThread):
                     self.al.min_history = []
                 if self.mode == 'SINGLE_STEP':
                     self.isRunning = False
+
+                # STOP CONDITION
+                self.al.maximum_history.append(self.population.maximum)
+                if self.al.counter > 1000:
+                    if no_change(self.al.population.population):
+                        if no_change(self.al.maximum_history):
+                            self.main_window.clear_btn.clicked.emit()
+                            self.main_window.found_max.setText(str(self.population.maximum))
+                            self.main_window.found_max_for.setText(str(self.population.maximum_x))
+                            self.main_window.function_plot.plot_function(self.x_range, self.population.function,self.population.int_pop)
+                            self.main_window.history_plot.plot_history(
+                                self.al.max_history,
+                                self.al.avg_history,
+                                self.al.min_history,
+                                self.al.counter - DEQUE_SIZE,
+                                self.al.counter)
+                            self.main_window.pie_plot.plot_pie(self.population)
+
                 
 class ApplicationLogic(object):
     def __init__(self, main_window):
         self.main_window = main_window
-
+        self.maximum_history = deque([], MAX_HIST_SIZE)
         self.population = Population()
         self.avg_history = [] # deque([], DEQUE_SIZE)
         self.max_history = [] # deque([], DEQUE_SIZE)
@@ -146,13 +189,18 @@ class ApplicationLogic(object):
         self.main_window.pop_size.setDisabled(True)
         self.main_window.cross_prob.setDisabled(True)
         self.main_window.mutate_prob.setDisabled(True)
-        
+        self.validateInput()
         self.avg_history.append(self.population.average)
         self.max_history.append(self.population.maximum)
         self.min_history.append(self.population.minimum)
         points = self.population.int_pop
         self.main_window.function_plot.plot_function(self.x_range, self.population.function, points )
-        self.main_window.history_plot.plot_history(self.max_history[-DEQUE_SIZE:], self.avg_history[-DEQUE_SIZE:], self.min_history[-DEQUE_SIZE:])
+        self.main_window.history_plot.plot_history(
+            self.max_history,
+            self.avg_history,
+            self.min_history,
+            self.counter - DEQUE_SIZE,
+            self.counter)
         self.main_window.pie_plot.plot_pie(self.population)
         
         self.main_window.current_max.setText(str(round(self.population.maximum*10000)/10000))
@@ -184,6 +232,9 @@ class ApplicationLogic(object):
         self.main_window.current_min.setText('')
         self.main_window.current_min_for.setText('')
         self.main_window.max_all_time_label.setText('0')
+        self.maximum_history = deque([], MAX_HIST_SIZE)
+        self.main_window.found_max.setText("----")
+        self.main_window.found_max_for.setText("----")
 
         self.all_time_max = 0
         self.all_time_max_x = 0
@@ -218,3 +269,8 @@ class ApplicationLogic(object):
         if self.main_window.min_check.checkState():
             plt.plot(self.min_history, color='r')
         plt.show()
+
+    def validateInput(self):
+        v = self.main_window.pop_size.value()
+        if v % 2 != 0:
+            self.main_window.pop_size.setValue(v - 1)

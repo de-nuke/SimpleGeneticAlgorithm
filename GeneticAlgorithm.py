@@ -9,9 +9,6 @@ import random
 from utils import neg_char, to_b, to_dec
 import numpy as np
 
-def tmp_fun(x):
-    return -0.1 * x**2 + 4 * x + 7
-    #return x**2
 
 def _should_cross(cross_probability):
     return choice([True, False], 1, p=[cross_probability, 1-cross_probability])[0]
@@ -19,7 +16,9 @@ def _should_cross(cross_probability):
 MUTATION_TYPE = 'NEGATION'
 
 X_START = -1
-X_END = 41
+
+# X_END = 41
+X_END = 21
 
 OFFSET = -X_START
 
@@ -30,8 +29,8 @@ class Population(object):
     gene - one bit in in binary number (creature)
     
     '''
-    def __init__(self, population_size=0, crossing_probability=1, mutation_probability=0.1, function=lambda x: x, mutation_type=MUTATION_TYPE):
-        self.population = np.array([to_b(random.SystemRandom().randrange(-1, 42), OFFSET) for x in range(population_size)])
+    def __init__(self, population_size=0, crossing_probability=1, mutation_probability=0.001, function=lambda x: x, mutation_type=MUTATION_TYPE):
+        self.population = np.array([to_b(random.SystemRandom().randrange(X_START, X_END+1), OFFSET) for x in range(population_size)])
         self.function = function
         self.size = population_size
         self.int_pop = [to_dec(x, OFFSET) for x in self.population]
@@ -111,7 +110,7 @@ class Population(object):
                     new_creature = new_creature[:i] + bit + new_creature[i+1:]
                 # if muted:
                     # print("UWAGA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-                print(creature, ' = ', str(to_dec(creature, OFFSET)), 'muted? ', muted, ' po mutacji: ', new_creature)
+                # print(creature, ' = ', str(to_dec(creature, OFFSET)), 'muted? ', muted, ' po mutacji: ', new_creature)
                 # print("Wyszło mi: " + new_creature + ", czyli: " + str(to_dec(new_creature, OFFSET)))
             # print("Teraz jest dobrze! Idę dalej")
             self.population[index] = new_creature
@@ -182,7 +181,7 @@ class Population(object):
 
     @property
     def average(self):
-        return sum(self.values)/ len(self.values)
+        return sum(self.values)/len(self.values)
 
     def setFunction(self, f):
         self.function = f
