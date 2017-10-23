@@ -75,10 +75,12 @@ class PlotCanvas(FigureCanvas):
             times.append(population.int_pop.count(x))
         
         explode = tuple(explode)
-        values = [population.function(creature) for creature in set(population.int_pop)]
+        values = [population.function(creature) + 1000 for creature in set(population.int_pop)]
         sum_values = sum([population.function(creature) for creature in population.int_pop])
         data = [(value / 1) * times[i] for i, value in enumerate(values)]
+
         patches, texts, autotexts = self.ax.pie(data, autopct=make_autopct(sum_values, len(data)), shadow = True, explode=explode, labels=labels)
+
         for t in texts:
             t.set_fontsize(14 if len(data) < 35 else 10) 
         for at in autotexts:

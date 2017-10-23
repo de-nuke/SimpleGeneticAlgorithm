@@ -8,19 +8,12 @@ from numpy.random import choice
 import random
 from utils import neg_char, to_b, to_dec
 import numpy as np
+from settings import *
 
 
 def _should_cross(cross_probability):
     return choice([True, False], 1, p=[cross_probability, 1-cross_probability])[0]
 
-MUTATION_TYPE = 'NEGATION'
-
-X_START = -1
-
-# X_END = 41
-X_END = 21
-
-OFFSET = -X_START
 
 class Population(object):
     '''
@@ -44,7 +37,7 @@ class Population(object):
         n = self.size
         self.int_pop = [to_dec(x, OFFSET) for x in self.population]
         
-        values = [self.function(creature) for creature in self.int_pop]
+        values = [self.function(creature) + 10000 for creature in self.int_pop]
         for i, creature in enumerate(self.population):
             roulette[creature] = values[i] / sum(values)
             expected_num_of_copies[creature] = roulette[creature] * n
@@ -118,41 +111,6 @@ class Population(object):
         self.int_pop = [to_dec(x, OFFSET) for x in self.population]
         return self
 
-    # def mutate(self, mutation_probability=None):
-    #     '''
-    #     Assuming that mutation is a negation of random bit
-    #     '''
-    #     mutation_probability = mutation_probability if mutation_probability else self.mutation_probability
-    #     do_mutation = choice([True, False], 1, p=[mutation_probability, 1-mutation_probability])[0]
-    #     if do_mutation:
-    #         if self.mutation_type == 'NEGATION':
-    #             creature_index = random.randrange(0,self.size)
-    #             old_creature = self.population[creature_index]
-    #             position = random.randrange(0,self.creature_size)
-    #             gene_to_mutate = old_creature[position]
-    #             new_gene = neg_char(gene_to_mutate)
-    #             new_creature = old_creature[:position] + new_gene + old_creature[position+1:]
-    #             if int(new_creature, 2) <= 41 and int(new_creature, 2) >= -1:
-    #                 self.population[creature_index] = new_creature
-    #         elif self.mutation_type == 'EXCHANGE':
-    #             creature_index = random.randrange(0,self.size)
-    #             old_creature = self.population[creature_index]
-    #             position1 = random.randrange(0,self.creature_size)
-    #             position2 = random.randrange(0,self.creature_size)
-    #             while position2 == position1:
-    #                 position2 = random.randrange(0,self.creature_size)
-    #
-    #             gene1 = old_creature[position1]
-    #             gene2 = old_creature[position2]
-    #             old_creature = old_creature[:position1] + gene1 + old_creature[position1+1:]
-    #             new_creature = old_creature[:position2] + gene2 + old_creature[position2+1:]
-    #
-    #             if int(new_creature, 2) <= 41 and int(new_creature, 2) >= -1:
-    #                 self.population[creature_index] = new_creature
-    #
-    #     self.int_pop = [int(x,2) for x in self.population]
-    #     return self
-    
     def dump(self):
         return str(self.population)
 

@@ -10,22 +10,9 @@ from random import randrange as rand
 from collections import deque
 from PyQt5.QtCore import QThread, pyqtSignal
 import matplotlib.pyplot as plt
+import math
+from settings import *
 
-DEQUE_SIZE = 20
-
-'''const for this exercise '''
-
-def f(x):
-    # return -0.1*x**2 + 4*x + 7
-    # return -0.4*x**2 + 4*x + 6
-    return -0.25*x**2 + 5*x + 6
-
-X_START = -1
-
-# X_END = 41
-X_END = 21
-
-MAX_HIST_SIZE = 20
 
 ''' end of const '''
 
@@ -152,34 +139,14 @@ class ApplicationLogic(object):
         if not self.thread.isRunning:
             self.thread.start()
         self.thread.activate('SINGLE_STEP')
-#        if not self.thread2.isRunning:
-#            self.thread2.start()
-#        self.thread2.activate('SINGLE_STEP')
-#        self.population.reproduct().cross().mutate()
-#        self.counter += 1
-#        
-#        self.avg_history.append(self.population.average)
-#        self.max_history.append(self.population.maximum)
-#        self.min_history.append(self.population.minimum)
-#        
-#        points = self.population.int_pop
-#        
-#        self.main_window.function_plot.plot_function(self.x_range, self.population.function, points )
-#        self.main_window.history_plot.plot_history(self.max_history[-DEQUE_SIZE:], self.avg_history[-DEQUE_SIZE:], self.min_history[-DEQUE_SIZE:])
-#        self.main_window.pie_plot.plot_pie(self.population)
-#    
-#        if len(self.avg_history) > 2000:
-#            self.avg_history = []
-#            self.max_history = []
-#            self.min_history = []
-#        
-            
+
     def apply_parameters(self):
         size = self.main_window.pop_size.value()
         cross_probability = self.main_window.cross_prob.value()
         mutate_probability = self.main_window.mutate_prob.value()
         self.population = Population(size, cross_probability, mutate_probability)
         self.population.setFunction(f)
+
         self.thread.population = self.population
 #        self.thread2.population = self.population
         self.main_window.start_auto_btn.setDisabled(False)
