@@ -9,6 +9,8 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from PyQt5.QtWidgets import QSizePolicy
 import numpy as np
+from settings import FUNCTION_OFFSET
+
 
 class PlotCanvas(FigureCanvas):
  
@@ -75,7 +77,7 @@ class PlotCanvas(FigureCanvas):
             times.append(population.int_pop.count(x))
         
         explode = tuple(explode)
-        values = [population.function(creature) + 1000 for creature in set(population.int_pop)]
+        values = [population.function(creature) + FUNCTION_OFFSET for creature in set(population.int_pop)]
         sum_values = sum([population.function(creature) for creature in population.int_pop])
         data = [(value / 1) * times[i] for i, value in enumerate(values)]
 
@@ -87,4 +89,3 @@ class PlotCanvas(FigureCanvas):
             at.set_fontsize(10)
         self.ax.set_aspect('1')
         self.draw()
-        

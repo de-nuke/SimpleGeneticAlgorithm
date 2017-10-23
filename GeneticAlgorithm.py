@@ -36,8 +36,9 @@ class Population(object):
         roulette, expected_num_of_copies = {}, {}
         n = self.size
         self.int_pop = [to_dec(x, OFFSET) for x in self.population]
-        
-        values = [self.function(creature) + 10000 for creature in self.int_pop]
+
+        values = [self.function(creature) + FUNCTION_OFFSET for creature in self.int_pop]
+
         for i, creature in enumerate(self.population):
             roulette[creature] = values[i] / sum(values)
             expected_num_of_copies[creature] = roulette[creature] * n
