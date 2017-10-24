@@ -87,7 +87,7 @@ class AutoStep(QThread):
                         self.al.max_history,
                         self.al.avg_history,
                         self.al.min_history,
-                        self.al.counter - DEQUE_SIZE,
+                        self.al.counter - MAX_HIST_SIZE,
                         self.al.counter)
                     self.main_window.pie_plot.plot_pie(self.population)
                 
@@ -111,7 +111,7 @@ class AutoStep(QThread):
                                 self.al.max_history,
                                 self.al.avg_history,
                                 self.al.min_history,
-                                self.al.counter - DEQUE_SIZE,
+                                self.al.counter - MAX_HIST_SIZE,
                                 self.al.counter)
                             self.main_window.pie_plot.plot_pie(self.population)
 
@@ -166,7 +166,7 @@ class ApplicationLogic(object):
             self.max_history,
             self.avg_history,
             self.min_history,
-            self.counter - DEQUE_SIZE,
+            self.counter - MAX_HIST_SIZE,
             self.counter)
         self.main_window.pie_plot.plot_pie(self.population)
         

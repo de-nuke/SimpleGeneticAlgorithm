@@ -10,7 +10,7 @@ from matplotlib.figure import Figure
 from PyQt5.QtWidgets import QSizePolicy
 import numpy as np
 from settings import FUNCTION_OFFSET
-
+from matplotlib.ticker import AutoMinorLocator, MultipleLocator
 
 class PlotCanvas(FigureCanvas):
  
@@ -42,16 +42,22 @@ class PlotCanvas(FigureCanvas):
         self.ax.plot(x_data, y, linewidth=0.5)
         self.ax.plot(points, y_points, 'o')
         self.ax.set_title('Fitness function')
+        self.ax.grid(True, which='both')
         self.draw() 
         
     def plot_history(self, max_history, avg_history, min_history, left_x, right_x):
         self.ax.cla()
-        style = '-' if len(max_history) > 1 else '*'
-        self.ax.plot(max_history, 'g'+style, linewidth=6)
-        self.ax.plot(avg_history, 'c'+style, linewidth=3)
-        self.ax.plot(min_history, 'r'+style, linewidth=0.8)
+        style = '-' if len(max_history) > 1 else '-'
+        self.ax.plot(max_history, style+'go', linewidth=6, markeredgecolor='yellow', markeredgewidth=1)
+        self.ax.plot(avg_history, style+'co', linewidth=3, markeredgecolor='black', markeredgewidth=1)
+        self.ax.plot(min_history, style+'ro', linewidth=0.8, markeredgecolor='black', markeredgewidth=1)
         self.ax.set_title('Maximum, average and miniumum fitness')
         self.ax.set_xbound(left_x, right_x)
+        major_locator = MultipleLocator(2)
+        minor_locator = AutoMinorLocator(2)
+        self.ax.xaxis.set_major_locator(major_locator)
+        self.ax.xaxis.set_minor_locator(minor_locator)
+        self.ax.grid(b=True, which='both')
         self.draw()
         
     def plot_pie(self, population):
