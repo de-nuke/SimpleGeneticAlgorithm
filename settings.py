@@ -5,12 +5,13 @@
 -0.25*x**2 + 5*x + 6
 '''
 
-FUNCTION = lambda x: -0.4*x**2 + 4*x + 6
+# FUNCTION = lambda x: -0.4*x**2 + 4*x + 6
+FUNCTION = lambda x: -0.1*x**2 + 4*x + 7
 
 X_START = -1
 
-# X_END = 41
-X_END = 21
+X_END = 41
+##X_END = 21
 
 MAX_HIST_SIZE = 20
 ''' end of user settings '''
