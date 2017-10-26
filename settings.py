@@ -14,6 +14,8 @@ X_END = 41
 ##X_END = 21
 
 MAX_HIST_SIZE = 20
+
+MAX_ITERATIONS = None
 ''' end of user settings '''
 
 

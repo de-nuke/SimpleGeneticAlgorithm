@@ -100,8 +100,9 @@ class AutoStep(QThread):
 
                 # STOP CONDITION
                 self.al.maximum_history.append(self.population.maximum)
-                if self.al.counter > 1000:
-                    if no_change(self.al.population.population):
+                if self.al.counter >= 1000:
+                    to_stop = self.al.counter >= MAX_ITERATIONS if MAX_ITERATIONS else False
+                    if no_change(self.al.population.population) or to_stop:
                         if no_change(self.al.maximum_history):
                             self.main_window.clear_btn.clicked.emit()
                             self.main_window.found_max.setText(str(self.population.maximum))

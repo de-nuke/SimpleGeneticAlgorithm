@@ -82,6 +82,7 @@
 				\item \textbf{X\_START} - Początek zakresu
 				\item \textbf{X\_END} - Koniec zakresu
 				\item \textbf{MAX\_HIST\_SIZE} - Liczba wyników pokazywana na wykresie wartości min/max/avg
+				\item \textbf{MAX\_ITERATIONS} - Maksymalna liczba iteracji po której algorytm zakończy działanie. Ustawienie \texttt{None} oznacza brak ograniczenia.
 			\end{enumerate}
 	
 		\subsection{Użycie}
@@ -110,7 +111,7 @@
 			Możemy przybliżać i oddalać dowolne fragmenty wykresu, modyfikować wygląd wykresu, a także zapisać go do pliku \texttt{*.png}
 			
 		\subsection{Warunek stopu}
-		Program powinien zatrzymać się po wykonaniu przynajmniej 1000 iteracji, w sytuacji gdy ostanie 20 wartości maksymalnych jest takich samych, a w populacji występują tylko osobniki o tym samym kodzie.
+		Program powinien zatrzymać się po wykonaniu przynajmniej 1000 iteracji, w sytuacji gdy ostanie N wartości maksymalnych jest takich samych, a w populacji występują tylko osobniki o tym samym kodzie. N odpowiada ustawieniu \textbf{MAX\_HIST\_SIZE}
 		
 	\section{Opis eksperymentów}
 	Eksperymenty przeprowadzone były dla funkcji $f(x) = -0.1x^2 + 4x + 7$, dla $x = -1, 0, ..., 41$. Dokładność znalezionego rozwiązania obliczona jest poprzez obliczenie stosunku znalezionej wartości maksymalnej do wartości obliczonej analitycznie. W tym przypadku, maksimum funkcji wynosi $47$ i jest osiągane dla argumentu $x = 20$
